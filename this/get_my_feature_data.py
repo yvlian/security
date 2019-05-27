@@ -41,8 +41,12 @@ for fid in file_ids:
 data = data.fillna(0)
 data1 = data[:len(y)]
 data1['label'] = list(y['label'])
+data1['file_id'] = data1['file_id'].apply(lambda x:x.replace('train','')).tolist()
+data1 = data1.set_index('file_id')
 data1.to_csv('../data/train.csv')
-data2 = data[len(y):]
 
+data2 = data[len(y):]
+data2['file_id'] = data2['file_id'].apply(lambda x:x.replace('test','')).tolist()
+data2 = data2.set_index('file_id')
 data2.to_csv('../data/test.csv')
 
