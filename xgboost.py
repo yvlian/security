@@ -1,7 +1,7 @@
 import pandas as pd
 import xgboost as xgb
 import numpy as np
-d = pd.read_csv('../data/train.csv')
+d = pd.read_csv('./data/train.csv')
 train_id = d.pop('file_id').tolist()
 n = len(d)
 split = 0.75
@@ -12,7 +12,7 @@ d.pop('label')
 x_train = d[:m]
 x_val = d[m:]
 
-# x_test = pd.read_csv('../data/test.csv')
+# x_test = pd.read_csv('./data/test.csv')
 # test_id = x_test.pop('file_id').tolist()
 
 param = {}
@@ -44,4 +44,4 @@ print(accuracy)
 # data1 = pd.DataFrame(softprob_pred,columns=['prob0', 'prob1', 'prob2', 'prob3', 'prob4', 'prob5' ,'prob6','prob7'])
 # data1['file_id'] = test_id
 # data1 = data1.set_index('file_id')
-# data1.to_csv('../data/security_submit.csv')
+# data1.to_csv('./data/security_submit.csv')
