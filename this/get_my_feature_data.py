@@ -12,18 +12,18 @@ d = pd.concat([d1,d2],axis=0)
 data = pd.DataFrame()
 
 print('get my data feature,including file_id,APIs_count,threadi_api_length,total_api_length,threads_num,label')
-for r in d.sort_index().groupby('file_id'):
+for r in d.groupby('file_id'):
     fid = r[0]
     row = r[1]
     new_row = {'file_id': fid,'total_api_length':row.shape[0]}
-    temp = row[['tid','index']].groupby('tid').count()
-    temp.sort_values(by='index',ascending=False)
+    temp = row['tid'].value_counts()
+    temp.sort_values(ascending=False)
     new_row['threads_num'] = temp.shape[0]
     for i in range(temp.shape[0]):
-        new_row['thread'+str(i)+'_api_length'] = temp.iloc[i]['index']
+        new_row['thread'+str(i)+'_api_length'] = temp.iloc[i]
 
-    temp = row[['api', 'index']].groupby('api').count()
-    for k,v in temp.itertuples():
+    temp = row['api'].value_counts()
+    for k,v in temp.items():
         new_row[k] = v
     data = data.append(new_row, ignore_index=True)
 
