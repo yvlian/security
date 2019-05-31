@@ -1,13 +1,13 @@
 import pandas as pd
 print('---')
-d1 = pd.read_csv('./data/m.csv')
+d1 = pd.read_csv('./data/security_train.csv')
 d1['file_id'] = d1['file_id'].apply(lambda x:'train'+str(x))
 y = d1[['file_id','label']].groupby('file_id').mean()
 d1.pop('label')
 
-d2 = pd.read_csv('./data/m.csv')
+d2 = pd.read_csv('./data/security_test.csv')
 d2['file_id'] = d2['file_id'].apply(lambda x:'test'+str(x))
-d2.pop('label')
+
 d = pd.concat([d1,d2],axis=0)
 data = pd.DataFrame()
 
