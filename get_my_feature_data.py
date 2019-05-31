@@ -1,13 +1,13 @@
 import pandas as pd
 print('---')
-d1 = pd.read_csv('./data/security_train.csv')
+d1 = pd.read_csv('./data/m.csv')
 d1['file_id'] = d1['file_id'].apply(lambda x:'train'+str(x))
 y = d1[['file_id','label']].groupby('file_id').mean()
 d1.pop('label')
 
-d2 = pd.read_csv('./data/security_test.csv')
+d2 = pd.read_csv('./data/m.csv')
 d2['file_id'] = d2['file_id'].apply(lambda x:'test'+str(x))
-
+d2.pop('label')
 d = pd.concat([d1,d2],axis=0)
 data = pd.DataFrame()
 
@@ -28,19 +28,20 @@ for r in d.groupby('file_id'):
     data = data.append(new_row, ignore_index=True)
 
 n = y.shape[0]
+m = data.shape[0]
 
-print('test.csv')
 data = data.fillna(0)
 
-data1 = data[:n]
-data1['label'] = y['label'].tolist()
+print('test.csv')
+data1 = data[:m-n]
 data1['file_id'] = data1['file_id'].apply(lambda x:x.replace('test','')).tolist()
 data1 = data1.set_index('file_id')
 data1 = data1.astype('int')
 data1.to_csv('./data/test.csv')
 
 print('train.csv')
-data2 = data[n:]
+data2 = data[m-n:]
+data2['label'] = y['label'].tolist()
 data2['file_id'] = data2['file_id'].apply(lambda x:x.replace('train','')).tolist()
 data2 = data2.set_index('file_id')
 data2 = data2.astype('int')
