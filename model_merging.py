@@ -6,8 +6,10 @@ train_id = d.pop('file_id').tolist()
 n = len(d)
 split = 0.75
 m = int(split * n)
-y_train = d['label'][:m]
+y_train = d['label'][:m].tolist()
 y_val = d['label'][m:].tolist()
+print('y_train',y_train)
+print('y_val',y_val)
 d.pop('label')
 x_train = d[:m]
 x_val = d[m:]
